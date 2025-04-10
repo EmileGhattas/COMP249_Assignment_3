@@ -1,20 +1,24 @@
+// Product.java
+// This class represents a product entry read from TradeData.txt.
+// Each line in the file is formatted as: ProductName,Country,Category,InitialPrice
+// The class stores the product name, country, category, initial price, and the adjusted price after applying tariffs.
 public class Product implements Comparable<Product> {
     private String productName;
     private String country;
     private String category;
     private double initialPrice;
-    private double adjustedPrice; // Price after applying tariff adjustments
+    private double adjustedPrice;  // After tariff adjustment
 
-    // Parameterized constructor.
+    // Parameterized constructor
     public Product(String productName, String country, String category, double initialPrice) {
         this.productName = productName;
         this.country = country;
         this.category = category;
         this.initialPrice = initialPrice;
-        this.adjustedPrice = initialPrice; // initially, same as initialPrice
+        this.adjustedPrice = initialPrice; // Default (before adjustment)
     }
 
-    // Getters for all fields.
+    // Getters
     public String getProductName() {
         return productName;
     }
@@ -32,18 +36,17 @@ public class Product implements Comparable<Product> {
     }
 
     // Apply Tariff Adjustment Rules:
-    // For each product, the tariff is applied based on the country of origin.
-    // Tariff Adjustment Rules:
-    // Country         Tariff Increase   Affected Categories
-    // China           +25%              All products
-    // USA             +10%              Electronics
-    // Japan           +15%              Automobiles
-    // India           +5%               Agriculture
-    // South Korea     +8%               Electronics
-    // Saudi Arabia    +12%              Energy
-    // Germany         +6%               Manufacturing
-    // Bangladesh      +4%               Textile
-    // Brazil          +9%               Agriculture
+    // For each product, adjust the initial price based on the country and (if applicable) category.
+    // Rules:
+    //   China:         +25%           (All products)
+    //   USA:           +10%           (Electronics)
+    //   Japan:         +15%           (Automobiles)
+    //   India:         +5%            (Agriculture)
+    //   South Korea:   +8%            (Electronics)
+    //   Saudi Arabia:  +12%           (Energy)
+    //   Germany:       +6%            (Manufacturing)
+    //   Bangladesh:    +4%            (Textile)
+    //   Brazil:        +9%            (Agriculture)
     public void applyTariff() {
         double rate = 0.0;
         if (country.equalsIgnoreCase("China")) {

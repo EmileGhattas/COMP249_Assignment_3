@@ -1,3 +1,11 @@
+// TradeManager.java
+// IV) Now, you are required to write a public class named TradeManager. In the main() method, you must do the following:
+//
+//      (a) Create at least two empty lists from the TariffList class (needed for copy constructor III (e)).
+//      (b) Open the Tariff.txt file and read its contents line by line. Use these records to initialize one of the TariffList objects you created above. You can use the addToStart() method to insert the read objects into the list. However, the list must not have any duplicate records, hence, if the input file has duplicate entries, your code must handle this case so that each record is inserted in the list only once.
+//      (c) Open TradeRequests.txt and create an ArrayList from the contents, then iterate through each of the TariffRequests, process it and print the outcome whether it will be accepted, rejected or conditionally accepted.
+//      (d) Prompt the user to enter a few Tariffs and search the list that you created from the input file for these values. Make sure to display the number of iterations performed.
+//      (e) Following that, you must create enough objects to test each of the constructors/methods of your classes.
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -6,22 +14,69 @@ import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Collections;
+import java.util.NoSuchElementException;
 
 public class TradeManager {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
+        // PART 1: Process product data (TradeData.txt) using ArrayList and File I/O.
+        System.out.println("Processing trade data from TradeData.txt...");
+        ArrayList<Product> products = new ArrayList<>();
+        BufferedReader prodReader = null;
+        try {
+            prodReader = new BufferedReader(new FileReader("TradeData.txt"));
+            String line;
+            while ((line = prodReader.readLine()) != null) {
+                // Expected format: ProductName,Country,Category,InitialPrice
+                String[] tokens = line.split(",");
+                if (tokens.length != 4)
+                    continue;
+                String productName = tokens[0].trim();
+                String country = tokens[1].trim();
+                String category = tokens[2].trim();
+                double initialPrice = Double.parseDouble(tokens[3].trim());
+                Product p = new Product(productName, country, category, initialPrice);
+                p.applyTariff();
+                products.add(p);
+            }
+        } catch (IOException e) {
+            System.err.println("Error reading TradeData.txt: " + e.getMessage());
+        } finally {
+            try { if (prodReader != null) prodReader.close(); } catch(IOException e) {}
+        }
+
+        // Sort products alphabetically by product name.
+        Collections.sort(products);
+
+        // Write updated product data to UpdatedTradeData.txt.
+        PrintWriter prodWriter = null;
+        try {
+            prodWriter = new PrintWriter(new FileOutputStream("UpdatedTradeData.txt"));
+            for (Product p : products) {
+                prodWriter.println(p.toString());
+            }
+            System.out.println("Updated product data written to UpdatedTradeData.txt");
+        } catch (IOException e) {
+            System.err.println("Error writing UpdatedTradeData.txt: " + e.getMessage());
+        } finally {
+            if (prodWriter != null)
+                prodWriter.close();
+        }
+
+        // PART 2: Process tariff management using linked lists.
         // (a) Create at least two empty TariffList objects.
         TariffList list1 = new TariffList();
         TariffList list2 = new TariffList();
 
         // (b) Open Tariff.txt and read its contents line by line.
         // Expected format: DestinationCountry OriginCountry ProductCategory MinimumTariff
-        BufferedReader reader = null;
+        BufferedReader tariffReader = null;
         try {
-            reader = new BufferedReader(new FileReader("Tariff.txt"));
+            tariffReader = new BufferedReader(new FileReader("Tariffs.txt"));
             String line;
-            while((line = reader.readLine()) != null) {
+            while ((line = tariffReader.readLine()) != null) {
                 String[] tokens = line.trim().split("\\s+");
                 if(tokens.length != 4)
                     continue;
@@ -29,16 +84,16 @@ public class TradeManager {
                 String origin = tokens[1];
                 String category = tokens[2];
                 double minTariff = Double.parseDouble(tokens[3]);
-                // Create a Show object representing the tariff record.
+                // Create a Show object representing a tariff record.
                 Show tariff = new Show(dest, origin, category, minTariff);
-                // Insert into list1 only if no duplicate exists.
+                // Insert into list1 only if no duplicate record exists.
                 if(!list1.contains(origin, dest, category))
                     list1.addToStart(tariff);
             }
         } catch(IOException e) {
             System.err.println("Error reading Tariff.txt: " + e.getMessage());
         } finally {
-            try { if(reader != null) reader.close(); } catch(IOException e) {}
+            try { if (tariffReader != null) tariffReader.close(); } catch(IOException e) {}
         }
 
         // (c) Open TradeRequests.txt and create an ArrayList from its contents.
@@ -48,7 +103,7 @@ public class TradeManager {
         try {
             tradeReader = new BufferedReader(new FileReader("TradeRequests.txt"));
             String line;
-            while((line = tradeReader.readLine()) != null) {
+            while ((line = tradeReader.readLine()) != null) {
                 String[] tokens = line.trim().split("\\s+");
                 if(tokens.length != 6)
                     continue;
@@ -57,7 +112,7 @@ public class TradeManager {
         } catch(IOException e) {
             System.err.println("Error reading TradeRequests.txt: " + e.getMessage());
         } finally {
-            try { if(tradeReader != null) tradeReader.close(); } catch(IOException e) {}
+            try { if (tradeReader != null) tradeReader.close(); } catch(IOException e) {}
         }
 
         // Process each trade request.
@@ -69,7 +124,7 @@ public class TradeManager {
             double tradeValue = Double.parseDouble(request[4]);
             double proposedTariff = Double.parseDouble(request[5]);
 
-            // Use the find() method to locate a matching tariff record.
+            // Use find() to search for a matching tariff record.
             TariffList.TariffNode node = list1.find(origin, destination, category);
             if(node == null) {
                 System.out.println(requestId + " - No matching tariff record found.");
@@ -78,7 +133,7 @@ public class TradeManager {
             Show foundTariff = node.getTariff();
             double minimumTariff = foundTariff.getMinimumTariff();
 
-            // Evaluate the trade outcome.
+            // Evaluate trade outcome.
             String outcome = list1.evaluateTrade(proposedTariff, minimumTariff);
             System.out.print(requestId + " - " + outcome + ". ");
             if(outcome.equals("Conditionally Accepted")) {
@@ -96,16 +151,13 @@ public class TradeManager {
         while(true) {
             System.out.print("Enter OriginCountry: ");
             String searchOrigin = scanner.nextLine().trim();
-            if(searchOrigin.equalsIgnoreCase("exit"))
-                break;
+            if(searchOrigin.equalsIgnoreCase("exit")) break;
             System.out.print("Enter DestinationCountry: ");
             String searchDestination = scanner.nextLine().trim();
-            if(searchDestination.equalsIgnoreCase("exit"))
-                break;
+            if(searchDestination.equalsIgnoreCase("exit")) break;
             System.out.print("Enter ProductCategory: ");
             String searchCategory = scanner.nextLine().trim();
-            if(searchCategory.equalsIgnoreCase("exit"))
-                break;
+            if(searchCategory.equalsIgnoreCase("exit")) break;
 
             TariffList.TariffNode foundNode = list1.find(searchOrigin, searchDestination, searchCategory);
             if(foundNode != null) {
@@ -115,7 +167,7 @@ public class TradeManager {
             }
         }
 
-        // (e) Create additional objects to test each constructor/method.
+        // (e) Create additional objects to test constructors/methods.
         System.out.println("\nTesting Show (Tariff) and TariffList methods:");
         Show s1 = new Show("USA", "China", "Electronics", 10.0);
         Show s2 = new Show(s1);  // Copy constructor
@@ -137,8 +189,7 @@ public class TradeManager {
         } catch(FileNotFoundException e) {
             System.err.println("Error writing TariffOutput.txt: " + e.getMessage());
         } finally {
-            if(output != null)
-                output.close();
+            if(output != null) output.close();
         }
 
         scanner.close();

@@ -1,3 +1,27 @@
+// TariffList.java
+// III) The TariffList class must implement the TariffPolicy interface, and it has the following:
+//
+// (a) An inner class named TariffNode. This class has the following:
+//      i. Two private attributes: an object of Tariff (using Show) and a pointer to a TariffNode object.
+//      ii. A default constructor, which assigns both attributes to null.
+//      iii. A parameterized constructor that accepts two parameters, a Tariff object and a TariffNode object, then initializes the attributes accordingly.
+//      iv. A copy constructor that creates deep copy of a TariffNode.
+//      v. A clone() method that creates deep copy of the node.
+//      vi. An equals() method that compares passed TariffNode with the current one.
+//      vii. Other mutator and accessor methods.
+//
+// (b) A private attribute called head, which should point to the first TariffNode in this list.
+// (c) A private attribute called size, which always indicates the current size of the list.
+// (d) A default constructor, which creates an empty list.
+// (e) A copy constructor, which accepts a TariffList object and creates a copy of it.
+// (f) A method called addToStart(), which accepts one parameter, a Tariff object and then creates a TariffNode with that passed object and inserts it at the head of the list.
+// (g) A method called insertAtIndex(), which accepts two parameters, a Tariff object, and an integer representing an index. If the index is invalid (a valid index is between 0 and size-1), the method must throw a NoSuchElementException and terminate the program. If the index is valid, then the method creates a TariffNode with the passed Tariff object and inserts it at the given index.
+// (h) A method called deleteFromIndex(), which accepts one integer parameter representing an index. Again, if the index is invalid, the method must throw NoSuchElementException and terminate the program. Otherwise, the TariffNode pointed to by that index is deleted from the list.
+// (i) A method called deleteFromStart(), which deletes the first TariffNode in the list (i.e. the one pointed by the head). All special cases must be properly handled.
+// (j) A method called replaceAtIndex(), which accepts two parameters, a Tariff object and an integer representing an index. If the index is invalid, the method simply returns; otherwise, the object in the TariffNode at the passed index is replaced by the node created from the passed object.
+// (k) A method called find(), which accepts three parameters: String origin, String destination, and String category. The method then searches the list for a TariffNode with that Tariff. If such an object is found, then the method returns a pointer to that TariffNode; otherwise, it returns null. The method must keep track of how many iterations were made before the search finally finds the TariffNode or concludes that it is not in the list.
+// (l) A method called contains(), which accepts three parameters: String origin, String destination, and String category. It returns true if a TariffNode with matching info is in the list; otherwise, the method returns false.
+// (m) A method called equals(), which accepts one parameter of type TariffList. The method returns true if the two lists contain similar TariffNodes; otherwise, the method returns false.
 import java.util.NoSuchElementException;
 
 public class TariffList implements TariffPolicy, Cloneable {
@@ -49,6 +73,7 @@ public class TariffList implements TariffPolicy, Cloneable {
                     return false;
             } else if(!this.tariff.equals(other.tariff))
                 return false;
+            // Recursively compare next.
             if(this.next == null && other.next == null)
                 return true;
             if(this.next == null || other.next == null)
@@ -93,14 +118,14 @@ public class TariffList implements TariffPolicy, Cloneable {
         }
     }
 
-    // (f) addToStart().
+    // (f) addToStart(): inserts a TariffNode at the head.
     public void addToStart(Show tariff) {
         TariffNode newNode = new TariffNode(tariff, head);
         head = newNode;
         size++;
     }
 
-    // (g) insertAtIndex().
+    // (g) insertAtIndex(): inserts a TariffNode at a specified index (0 to size-1).
     public void insertAtIndex(Show tariff, int index) {
         if(index < 0 || index > size - 1)
             throw new NoSuchElementException("Invalid index for insertion: " + index);
@@ -109,7 +134,7 @@ public class TariffList implements TariffPolicy, Cloneable {
             return;
         }
         TariffNode current = head;
-        for(int i = 0; i < index - 1; i++){
+        for(int i = 0; i < index - 1; i++) {
             current = current.getNext();
         }
         TariffNode newNode = new TariffNode(tariff, current.getNext());
@@ -117,7 +142,7 @@ public class TariffList implements TariffPolicy, Cloneable {
         size++;
     }
 
-    // (h) deleteFromIndex().
+    // (h) deleteFromIndex(): deletes the TariffNode at a specified index.
     public void deleteFromIndex(int index) {
         if(index < 0 || index > size - 1)
             throw new NoSuchElementException("Invalid index for deletion: " + index);
@@ -133,7 +158,7 @@ public class TariffList implements TariffPolicy, Cloneable {
         size--;
     }
 
-    // (i) deleteFromStart().
+    // (i) deleteFromStart(): deletes the first TariffNode.
     public void deleteFromStart() {
         if(head == null)
             throw new NoSuchElementException("List is empty, cannot delete.");
@@ -141,7 +166,7 @@ public class TariffList implements TariffPolicy, Cloneable {
         size--;
     }
 
-    // (j) replaceAtIndex().
+    // (j) replaceAtIndex(): replaces the Tariff object in a node at a given index.
     public void replaceAtIndex(Show tariff, int index) {
         if(index < 0 || index > size - 1)
             return;
@@ -152,8 +177,8 @@ public class TariffList implements TariffPolicy, Cloneable {
         current.setTariff(tariff);
     }
 
-    // (k) find(): searches for a TariffNode matching the given origin, destination, and category.
-    // It prints the number of iterations taken before returning the node, or 0 if not found.
+    // (k) find(): searches the list for a TariffNode with matching origin, destination, and category.
+    // Prints the number of iterations before returning the node (or null if not found).
     public TariffNode find(String origin, String destination, String category) {
         int iterations = 0;
         TariffNode current = head;
@@ -172,7 +197,7 @@ public class TariffList implements TariffPolicy, Cloneable {
         return null;
     }
 
-    // (l) contains(): returns true if a matching TariffNode is found.
+    // (l) contains(): returns true if a TariffNode matching the search criteria exists.
     public boolean contains(String origin, String destination, String category) {
         return (find(origin, destination, category) != null);
     }

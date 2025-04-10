@@ -1,3 +1,4 @@
+// ProductManager.java
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -7,14 +8,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class ProductManager {
-    public static void main(String[] args) {
+    // This method processes product data from TradeData.txt,
+    // applies tariffs, sorts products, and writes the updated data to UpdatedTradeData.txt.
+    public static void processProducts() {
         ArrayList<Product> products = new ArrayList<>();
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader("TradeData.txt"));
             String line;
             while ((line = reader.readLine()) != null) {
-                // Each line is formatted as: ProductName,Country,Category,InitialPrice
+                // Expected format: ProductName,Country,Category,InitialPrice
                 String[] tokens = line.split(",");
                 if (tokens.length != 4) continue;
                 String productName = tokens[0].trim();
@@ -34,7 +37,7 @@ public class ProductManager {
         // Sort products alphabetically by productName.
         Collections.sort(products);
 
-        // Write the updated product data to UpdatedTradeData.txt.
+        // Write updated product data to UpdatedTradeData.txt.
         PrintWriter writer = null;
         try {
             writer = new PrintWriter(new FileOutputStream("UpdatedTradeData.txt"));
