@@ -1,8 +1,3 @@
-// Product.java
-// This class represents a product entry read from the input file TradeData.txt.
-// Each line in the file is formatted as: ProductName,Country,Category,InitialPrice
-// The class stores the product name, the country of origin, the category, the initial price,
-// and (after applying the tariff rules) the adjusted price.
 public class Product implements Comparable<Product> {
     private String productName;
     private String country;

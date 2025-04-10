@@ -1,15 +1,3 @@
-// Show.java
-// II) The Tariff class has the following attributes: destinationCountry (String), originCountry (String),
-// productCategory (String), minimumTariff (double). It is assumed that String entries are recorded as a
-// single word (_ is used to combine multiple words).
-//
-// You are required to write the implementation of the Show class. Besides the usual mutator & accessor
-// methods (i.e. getOrginCountry(), setMinimumTarrif(double)) the class must also have the following:
-//
-//      a) Parameterized constructor accepts four values and initializes destinationCountry, originCountry, productCategory, and minimumTariff to these passed values.
-//      b) Copy constructor, which takes in only one parameter, a Tariff object. The newly created object will be assigned all the attributes of the passed object.
-//      c) clone() method. This method will create and return a clone of the calling object.
-//      d) toString() and an equals() methods. Two Tariffs are equal if they have the same attributes.
 public class Show implements Cloneable {
     private String destinationCountry;
     private String originCountry;

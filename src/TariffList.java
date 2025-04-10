@@ -1,29 +1,3 @@
-// TariffList.java
-// III) The TariffList class must implement the TariffPolicy interface, and it has the following:
-//
-// (a) An inner class named TariffNode. This class has the following:
-//      i. Two private attributes: an object of Tariff (we use Show) and a pointer to a TariffNode object.
-//      ii. A default constructor, which assigns both attributes to null.
-//      iii. A parameterized constructor that accepts two parameters, a Tariff object and a TariffNode object, then initializes the attributes accordingly.
-//      iv. A copy constructor that creates deep copy of a TariffNode.
-//      v. A clone() method that creates deep copy of the node.
-//      vi. An equals() method that compares passed TariffNode with the current one.
-//      vii. Other mutator and accessor methods.
-//
-// (b) A private attribute called head, which should point to the first TariffNode in this list.
-// (c) A private attribute called size, which always indicates the current size of the list.
-// (d) A default constructor, which creates an empty list.
-// (e) A copy constructor, which accepts a TariffList object and creates a copy of it.
-// (f) A method called addToStart(), which accepts one parameter, a Tariff object and then creates a TariffNode with that passed object and inserts it at the head of the list.
-// (g) A method called insertAtIndex(), which accepts two parameters, a Tariff object, and an integer representing an index. If the index is invalid (a valid index is between 0 and size-1), the method must throw a NoSuchElementException and terminate the program. If the index is valid, then the method creates a TariffNode with the passed Tariff object and inserts it at the given index.
-// (h) A method called deleteFromIndex(), which accepts one integer parameter representing an index. Again, if the index is invalid, the method must throw NoSuchElementException and terminate the program. Otherwise, the TariffNode pointed to by that index is deleted from the list.
-// (i) A method called deleteFromStart(), which deletes the first TariffNode in the list (i.e. the one pointed by the head). All special cases must be properly handled.
-// (j) A method called replaceAtIndex(), which accepts two parameters, a Tariff object and an integer representing an index. If the index is invalid, the method simply returns; otherwise, the object in the TariffNode at the passed index is replaced by the node created from the passed object.
-// (k) A method called find(), which accepts three parameters: String origin, String destination, and String category. The method then searches the list for a TariffNode with that Tariff. If such an object is found, then the method returns a pointer to that TariffNode; otherwise, it returns null. The method must keep track of how many iterations were made before the search finally finds the TariffNode or concludes that it is not in the list.
-// (l) A method called contains(), which accepts three parameters: String origin, String destination, and String category. It returns true if a TariffNode with matching info is in the list; otherwise, the method returns false.
-// (m) A method called equals(), which accepts one parameter of type TariffList. The method returns true if the two lists contain similar TariffNodes; otherwise, the method returns false.
-//
-// General rules: Whenever a node is added or deleted, adjust size accordingly; handle all special cases; all clone() and copy constructors must perform deep copies.
 import java.util.NoSuchElementException;
 
 public class TariffList implements TariffPolicy, Cloneable {
