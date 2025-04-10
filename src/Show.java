@@ -7,11 +7,8 @@
 // methods (i.e. getOrginCountry(), setMinimumTarrif(double)) the class must also have the following:
 //
 //      a) Parameterized constructor accepts four values and initializes destinationCountry, originCountry, productCategory, and minimumTariff to these passed values.
-//
 //      b) Copy constructor, which takes in only one parameter, a Tariff object. The newly created object will be assigned all the attributes of the passed object.
-//
 //      c) clone() method. This method will create and return a clone of the calling object.
-//
 //      d) toString() and an equals() methods. Two Tariffs are equal if they have the same attributes.
 public class Show implements Cloneable {
     private String destinationCountry;
@@ -27,7 +24,7 @@ public class Show implements Cloneable {
         this.minimumTariff = minimumTariff;
     }
 
-    // b) Copy constructor (takes a Show object and copies its attributes)
+    // b) Copy constructor (takes a Show object)
     public Show(Show other) {
         this.destinationCountry = other.destinationCountry;
         this.originCountry = other.originCountry;
@@ -35,7 +32,7 @@ public class Show implements Cloneable {
         this.minimumTariff = other.minimumTariff;
     }
 
-    // Standard mutators and accessors.
+    // Standard mutator and accessor methods.
     public String getOriginCountry() {
         return originCountry;
     }
@@ -61,19 +58,19 @@ public class Show implements Cloneable {
         this.productCategory = productCategory;
     }
 
-    // c) clone() method. Creates and returns a clone of the calling object.
+    // c) clone() method – creates and returns a clone (deep copy) of this object.
     @Override
     public Show clone() {
         return new Show(this);
     }
 
-    // d) toString() method returns a string representation of the object.
+    // d) toString() method – returns a string representation (fields separated by a space).
     @Override
     public String toString() {
         return destinationCountry + " " + originCountry + " " + productCategory + " " + minimumTariff;
     }
 
-    // d) equals() method. Two Show objects are equal if they have the same attributes.
+    // d) equals() method – two Show objects are equal if they have identical attributes.
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
