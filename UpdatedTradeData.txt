@@ -1,0 +1,4 @@
+Car,Japan,Automobile,25000.0
+Rice,India,Agriculture,525.0
+Smartphone,USA,Electronics,880.0000000000001
+Steel,China,Raw Material,1250.0
