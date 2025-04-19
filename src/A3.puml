@@ -1,0 +1,75 @@
+@startuml
+' COMP 249 - Assignment 3 UML Diagram
+' Written by: Ryan Khaled and Emile Ghattas
+
+interface TariffPolicy {
+    +evaluateTrade(proposedTariff: double, minimumTariff: double): String
+}
+
+class Product {
+    -productName: String
+    -country: String
+    -category: String
+    -initialPrice: double
+    -adjustedPrice: double
+    +Product(productName: String, country: String, category: String, initialPrice: double)
+    +applyTariff(): void
+    +compareTo(other: Product): int
+    +toString(): String
+}
+
+class ProductManager {
+    +processProducts(): void
+    +main(args: String[]): void
+}
+
+class Show {
+    -destinationCountry: String
+    -originCountry: String
+    -productCategory: String
+    -minimumTariff: double
+    +Show(dest: String, orig: String, category: String, minTariff: double)
+    +Show(other: Show)
+    +clone(): Show
+    +toString(): String
+    +equals(obj: Object): boolean
+}
+
+class TariffList {
+    -head: TariffNode
+    -size: int
+    +TariffList()
+    +TariffList(other: TariffList)
+    +addToStart(tariff: Show): void
+    +insertAtIndex(tariff: Show, index: int): void
+    +deleteFromIndex(index: int): void
+    +deleteFromStart(): void
+    +replaceAtIndex(tariff: Show, index: int): void
+    +find(origin: String, destination: String, category: String): TariffNode
+    +contains(origin: String, destination: String, category: String): boolean
+    +equals(obj: Object): boolean
+    +evaluateTrade(proposedTariff: double, minimumTariff: double): String
+}
+
+class TariffNode {
+    -tariff: Show
+    -next: TariffNode
+    +TariffNode()
+    +TariffNode(tariff: Show, next: TariffNode)
+    +TariffNode(other: TariffNode)
+    +clone(): TariffNode
+    +equals(obj: Object): boolean
+}
+
+class TradeManager {
+    +main(args: String[]): void
+}
+
+TariffList -- TariffNode
+TariffNode-- Show
+TariffList ..|> TariffPolicy
+ProductManager --> Product
+TradeManager --> Product
+TradeManager --> TariffList
+TradeManager --> Show
+@enduml
