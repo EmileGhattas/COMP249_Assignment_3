@@ -1,4 +1,10 @@
-// TariffList.java
+//---------------------------------------------------------------------------
+// Assignment 2
+// Question:
+// Written by: Emile Ghattas (id: 40282552) and Ryan Khaled (id: 40307741)
+//---------------------------------------------------------------------------
+
+
 // III) The TariffList class must implement the TariffPolicy interface, and it has the following:
 //
 // (a) An inner class named TariffNode. This class has the following:

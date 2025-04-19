@@ -1,4 +1,10 @@
-// Product.java
+//---------------------------------------------------------------------------
+// Assignment 2
+// Question:
+// Written by: Emile Ghattas (id: 40282552) and Ryan Khaled (id: 40307741)
+//---------------------------------------------------------------------------
+
+
 // This class represents a product entry read from TradeData.txt.
 // Each line in the file is formatted as: ProductName,Country,Category,InitialPrice
 // The class stores the product name, country, category, initial price, and the adjusted price after applying tariffs.

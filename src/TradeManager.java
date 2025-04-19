@@ -1,11 +1,10 @@
-// TradeManager.java
-// IV) Now, you are required to write a public class named TradeManager. In the main() method, you must do the following:
-//
-//      (a) Create at least two empty lists from the TariffList class (needed for copy constructor III (e)).
-//      (b) Open the Tariff.txt file and read its contents line by line. Use these records to initialize one of the TariffList objects you created above. You can use the addToStart() method to insert the read objects into the list. However, the list must not have any duplicate records, hence, if the input file has duplicate entries, your code must handle this case so that each record is inserted in the list only once.
-//      (c) Open TradeRequests.txt and create an ArrayList from the contents, then iterate through each of the TariffRequests, process it and print the outcome whether it will be accepted, rejected or conditionally accepted.
-//      (d) Prompt the user to enter a few Tariffs and search the list that you created from the input file for these values. Make sure to display the number of iterations performed.
-//      (e) Following that, you must create enough objects to test each of the constructors/methods of your classes.
+//---------------------------------------------------------------------------
+// Assignment 3
+// Question:
+// Written by: Emile Ghattas (id: 40282552) and Ryan Khaled (id: 40307741)
+//---------------------------------------------------------------------------
+
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -17,11 +16,26 @@ import java.util.Scanner;
 import java.util.Collections;
 import java.util.NoSuchElementException;
 
+// TradeManager.java
+// IV) Now, you are required to write a public class named TradeManager. In the main() method, you must do the following:
+//
+//      (a) Create at least two empty lists from the TariffList class (needed for copy constructor III (e)).
+//      (b) Open the Tariff.txt file and read its contents line by line. Use these records to initialize one of the TariffList objects you created above. You can use the addToStart() method to insert the read objects into the list. However, the list must not have any duplicate records, hence, if the input file has duplicate entries, your code must handle this case so that each record is inserted in the list only once.
+//      (c) Open TradeRequests.txt and create an ArrayList from the contents, then iterate through each of the TariffRequests, process it and print the outcome whether it will be accepted, rejected or conditionally accepted.
+//      (d) Prompt the user to enter a few Tariffs and search the list that you created from the input file for these values. Make sure to display the number of iterations performed.
+//      (e) Following that, you must create enough objects to test each of the constructors/methods of your classes.
+
 public class TradeManager {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         // PART 1: Process product data (TradeData.txt) using ArrayList and File I/O.
+        System.out.println("**************************************************************");
+        System.out.println("||                                                          ||");
+        System.out.println("||               Welcome to Tariff Manager                  ||");
+        System.out.println("||  by Ryan Khaled (40307741) and Emile Ghattas (40282552)  ||");
+        System.out.println("||                                                          ||");
+        System.out.println("**************************************************************\n");
         System.out.println("Processing trade data from TradeData.txt...");
         ArrayList<Product> products = new ArrayList<>();
         BufferedReader prodReader = null;
